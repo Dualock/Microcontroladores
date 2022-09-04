@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define PRIMITIVE 0x03 // mascara para elegir que bits realimentar en este caso 3 xor 1
+#define PRIMITIVE 0x03 // mascara para elegir que bits realimentar en este caso b[1] xor b[0]
 #define PUSH_B GP3
 #define SELECTOR GP4
 #define MAX_NUMBERS 16
@@ -22,27 +22,22 @@ void main(void)
 	unsigned char led1;
 	unsigned char led2;
     	while(1){
-	    	if(MAX_NUMBERS>counter){
-	    		GPIO |= masking(0); // Se pone en 0 
-	    		delay(10); // Delay inicial
-		    	if(PUSH_B){ // boton sin presionar
-		    		GPIO = 0x00;
-		    	}
-		    	else if(!PUSH_B){ // boton presionado
+	    	while(counter<MAX_NUMBERS){
+	    		//GPIO |= masking(0); // Se pone en 0 
+	    		//delay(10); // Delay inicial
+		    	if(!PUSH_B){ // boton presionado
 				seed = lfsr(seed);
 				led1 = seed;
 				led2 = seed - counter;
 				led2 = lfsr(led2);
-				LED_display_switching(led1, led2);
-				counter++; // por alguna razon este contador se resetea en 1	
+				LED_display_switching(led1, counter);
+				counter++; // por alguna razon este contador se resetea en 1
 			}
 		}
 		// si ya pasaron los 16 numeros
-		else{
 		GPIO&=0x08; // limpia los bits menos GP3
-		LED_display_switching(7,7);
+		LED_display_switching(9,9);
 		delay(10);
-		}
 	}
 }
 void LED_display_switching(unsigned char led1, unsigned char led2){
@@ -59,15 +54,16 @@ void LED_display_switching(unsigned char led1, unsigned char led2){
 		GPIO &= 0x18; // limpia los bits menos GP3 y GP4
 	}
 }
+
+
 void setup(){
 	typedef unsigned int word;
-    	TRISIO = 0b00001000; //Poner todos los pines como salidas
+    	TRISIO = 0b00000000; //Poner todos los pines como salidas, bit[3] siempre lee 1
 	GPIO = 0x00; //Poner pines en bajo
 	word __at 0x207 __CONFIG = (_WDTE_OFF & _WDT_OFF & _MCLRE_OFF);
 	ANSEL = 0x00;
 	//CMCON = 0x07;
 }
-
 // Esta funcion retorna una mascara para activar los bits del GPIO, del 0 al 7 la mascara es el mismo numero
 //unicamente cambia en los numeros 8 y 9 ya que el 4 bit es la entrada
 unsigned char masking(unsigned char number){
@@ -78,6 +74,7 @@ unsigned char masking(unsigned char number){
 	}
 	//return mask;
 }
+
 
 unsigned char lfsr(unsigned char seed) {
 	unsigned char feedback_bit;
@@ -98,7 +95,6 @@ unsigned char lfsr(unsigned char seed) {
 }
 
 
-
 void delay(unsigned int tiempo)
 {
 	unsigned int i;
@@ -106,9 +102,6 @@ void delay(unsigned int tiempo)
 	//*i = 0;
 	for(i=0;i<tiempo;(i)++)
 	for(j = 0; j<1275; (j)++);
-
-
-
 }
 
 
