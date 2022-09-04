@@ -137,14 +137,14 @@ code_bingo	code
 S_bingo__main	code
 _main:
 ; 2 exit points
-;	.line	17; "bingo.c"	setup();
+;	.line	16; "bingo.c"	setup();
 	PAGESEL	_setup
 	CALL	_setup
 	PAGESEL	$
-;	.line	20; "bingo.c"	unsigned char seed = 7;
+;	.line	19; "bingo.c"	unsigned char seed = 7;
 	MOVLW	0x07
 	MOVWF	r0x1011
-;	.line	25; "bingo.c"	while(counter<MAX_NUMBERS){
+;	.line	24; "bingo.c"	while(counter<MAX_NUMBERS){
 	CLRF	r0x1012
 ;;unsigned compare: left < lit(0x10=16), size=1
 _00107_DS_:
@@ -152,48 +152,48 @@ _00107_DS_:
 	SUBWF	r0x1012,W
 	BTFSC	STATUS,0
 	GOTO	_00109_DS_
-;;genSkipc:3307: created from rifx:0x7ffe703d98b0
-;	.line	28; "bingo.c"	if(!PUSH_B){ // boton presionado
+;;genSkipc:3307: created from rifx:0x7ffcd2780390
+;	.line	27; "bingo.c"	if(!PUSH_B){ // boton presionado
 	BANKSEL	_GPIObits
 	BTFSC	_GPIObits,3
 	GOTO	_00107_DS_
-;	.line	29; "bingo.c"	seed = lfsr(seed);
+;	.line	28; "bingo.c"	seed = lfsr(seed);
 	MOVF	r0x1011,W
 	PAGESEL	_lfsr
 	CALL	_lfsr
 	PAGESEL	$
 	MOVWF	r0x1011
-;	.line	31; "bingo.c"	led2 = seed - counter;
+;	.line	30; "bingo.c"	led2 = seed - counter;
 	MOVF	r0x1012,W
 	SUBWF	r0x1011,W
 ;;1	MOVWF	r0x1013
-;	.line	32; "bingo.c"	led2 = lfsr(led2);
+;	.line	31; "bingo.c"	led2 = lfsr(led2);
 	PAGESEL	_lfsr
 	CALL	_lfsr
 	PAGESEL	$
-;	.line	33; "bingo.c"	LED_display_switching(led1, counter);
+;	.line	32; "bingo.c"	LED_display_switching(led1, counter);
 	MOVF	r0x1012,W
 	MOVWF	STK00
 	MOVF	r0x1011,W
 	PAGESEL	_LED_display_switching
 	CALL	_LED_display_switching
 	PAGESEL	$
-;	.line	34; "bingo.c"	counter++; // por alguna razon este contador se resetea en 1
+;	.line	33; "bingo.c"	counter++; // por alguna razon este contador se resetea en 1
 	INCF	r0x1012,F
 	GOTO	_00107_DS_
 _00109_DS_:
-;	.line	38; "bingo.c"	GPIO&=0x08; // limpia los bits menos GP3
+;	.line	37; "bingo.c"	GPIO&=0x08; // limpia los bits menos GP3
 	MOVLW	0x08
 	BANKSEL	_GPIO
 	ANDWF	_GPIO,F
-;	.line	39; "bingo.c"	LED_display_switching(9,9);
+;	.line	38; "bingo.c"	LED_display_switching(9,9);
 	MOVLW	0x09
 	MOVWF	STK00
 	MOVLW	0x09
 	PAGESEL	_LED_display_switching
 	CALL	_LED_display_switching
 	PAGESEL	$
-;	.line	40; "bingo.c"	delay(10);
+;	.line	39; "bingo.c"	delay(10);
 	MOVLW	0x0a
 	MOVWF	STK00
 	MOVLW	0x00
@@ -201,7 +201,7 @@ _00109_DS_:
 	CALL	_delay
 	PAGESEL	$
 	GOTO	_00107_DS_
-;	.line	42; "bingo.c"	}
+;	.line	41; "bingo.c"	}
 	RETURN	
 ; exit point of _main
 
@@ -223,11 +223,11 @@ _00109_DS_:
 S_bingo__delay	code
 _delay:
 ; 2 exit points
-;	.line	98; "bingo.c"	void delay(unsigned int tiempo)
+;	.line	97; "bingo.c"	void delay(unsigned int tiempo)
 	MOVWF	r0x1000
 	MOVF	STK00,W
 	MOVWF	r0x1001
-;	.line	103; "bingo.c"	for(i=0;i<tiempo;(i)++)
+;	.line	101; "bingo.c"	for(i=0;i<tiempo;(i)++)
 	CLRF	r0x1002
 	CLRF	r0x1003
 _00179_DS_:
@@ -240,8 +240,8 @@ _00179_DS_:
 _00200_DS_:
 	BTFSC	STATUS,0
 	GOTO	_00181_DS_
-;;genSkipc:3307: created from rifx:0x7ffe703d98b0
-;	.line	104; "bingo.c"	for(j = 0; j<1275; (j)++);
+;;genSkipc:3307: created from rifx:0x7ffcd2780390
+;	.line	102; "bingo.c"	for(j = 0; j<1275; (j)++);
 	MOVLW	0xfb
 	MOVWF	r0x1004
 	MOVLW	0x04
@@ -264,13 +264,13 @@ _00177_DS_:
 	IORWF	r0x1006,W
 	BTFSS	STATUS,2
 	GOTO	_00177_DS_
-;	.line	103; "bingo.c"	for(i=0;i<tiempo;(i)++)
+;	.line	101; "bingo.c"	for(i=0;i<tiempo;(i)++)
 	INCF	r0x1002,F
 	BTFSC	STATUS,2
 	INCF	r0x1003,F
 	GOTO	_00179_DS_
 _00181_DS_:
-;	.line	105; "bingo.c"	}
+;	.line	103; "bingo.c"	}
 	RETURN	
 ; exit point of _delay
 
@@ -286,28 +286,28 @@ _00181_DS_:
 S_bingo__lfsr	code
 _lfsr:
 ; 2 exit points
-;	.line	79; "bingo.c"	unsigned char lfsr(unsigned char seed) {
+;	.line	78; "bingo.c"	unsigned char lfsr(unsigned char seed) {
 	MOVWF	r0x1008
-;	.line	81; "bingo.c"	feedback_bit = seed & PRIMITIVE; // aplicamos la mascara para obtener los bits a realimentar
+;	.line	80; "bingo.c"	feedback_bit = seed & PRIMITIVE; // aplicamos la mascara para obtener los bits a realimentar
 	MOVLW	0x03
 	ANDWF	r0x1008,W
 	MOVWF	r0x1009
 ;;shiftRight_Left2ResultLit:5474: shCount=1, size=1, sign=0, same=0, offr=0
-;	.line	82; "bingo.c"	feedback_bit = feedback_bit >>1 ^ feedback_bit;
+;	.line	81; "bingo.c"	feedback_bit = feedback_bit >>1 ^ feedback_bit;
 	BCF	STATUS,0
 	RRF	r0x1009,W
 	MOVWF	r0x100A
 	MOVF	r0x1009,W
 	XORWF	r0x100A,F
-;	.line	83; "bingo.c"	feedback_bit &= 0x01;
+;	.line	82; "bingo.c"	feedback_bit &= 0x01;
 	MOVLW	0x01
 	ANDWF	r0x100A,F
 ;;shiftRight_Left2ResultLit:5474: shCount=1, size=1, sign=0, same=0, offr=0
-;	.line	84; "bingo.c"	seed>>=1;
+;	.line	83; "bingo.c"	seed>>=1;
 	BCF	STATUS,0
 	RRF	r0x1008,W
 	MOVWF	r0x1009
-;	.line	85; "bingo.c"	seed|=(feedback_bit<<3);
+;	.line	84; "bingo.c"	seed|=(feedback_bit<<3);
 	MOVF	r0x100A,W
 	MOVWF	r0x1008
 	BCF	STATUS,0
@@ -321,32 +321,32 @@ _lfsr:
 	MOVWF	r0x1008
 	IORWF	r0x1009,W
 	MOVWF	r0x100A
-;	.line	86; "bingo.c"	seed &= 0x0F; // limpiamos el MSB para que no se pase de 15
+;	.line	85; "bingo.c"	seed &= 0x0F; // limpiamos el MSB para que no se pase de 15
 	MOVLW	0x0f
 	ANDWF	r0x100A,W
 	MOVWF	r0x1008
 ;;unsigned compare: left < lit(0xA=10), size=1
-;	.line	88; "bingo.c"	if(seed >= 10){
+;	.line	87; "bingo.c"	if(seed >= 10){
 	MOVLW	0x0a
 	SUBWF	r0x1008,W
 	BTFSS	STATUS,0
 	GOTO	_00166_DS_
-;;genSkipc:3307: created from rifx:0x7ffe703d98b0
+;;genSkipc:3307: created from rifx:0x7ffcd2780390
 ;;shiftRight_Left2ResultLit:5474: shCount=1, size=1, sign=0, same=0, offr=0
-;	.line	89; "bingo.c"	seed = (seed>>1) - 1;
+;	.line	88; "bingo.c"	seed = (seed>>1) - 1;
 	BCF	STATUS,0
 	RRF	r0x1008,W
 	MOVWF	r0x1009
 	MOVWF	r0x100A
 	DECF	r0x100A,W
-;	.line	90; "bingo.c"	return seed;
+;	.line	89; "bingo.c"	return seed;
 	MOVWF	r0x1009
 	GOTO	_00168_DS_
 _00166_DS_:
-;	.line	93; "bingo.c"	return seed;
+;	.line	92; "bingo.c"	return seed;
 	MOVF	r0x1008,W
 _00168_DS_:
-;	.line	95; "bingo.c"	}
+;	.line	94; "bingo.c"	}
 	RETURN	
 ; exit point of _lfsr
 
@@ -383,7 +383,7 @@ _00147_DS_:
 ;	.line	73; "bingo.c"	default: return number;
 	MOVF	r0x100B,W
 _00149_DS_:
-;	.line	76; "bingo.c"	}
+;	.line	75; "bingo.c"	}
 	RETURN	
 ; exit point of _masking
 
@@ -401,10 +401,10 @@ _setup:
 ;	.line	62; "bingo.c"	GPIO = 0x00; //Poner pines en bajo
 	BANKSEL	_GPIO
 	CLRF	_GPIO
-;	.line	64; "bingo.c"	ANSEL = 0x00;
+;	.line	63; "bingo.c"	ANSEL = 0x00;
 	BANKSEL	_ANSEL
 	CLRF	_ANSEL
-;	.line	66; "bingo.c"	}
+;	.line	65; "bingo.c"	}
 	RETURN	
 ; exit point of _setup
 
@@ -432,11 +432,11 @@ _setup:
 S_bingo__LED_display_switching	code
 _LED_display_switching:
 ; 2 exit points
-;	.line	43; "bingo.c"	void LED_display_switching(unsigned char led1, unsigned char led2){
+;	.line	42; "bingo.c"	void LED_display_switching(unsigned char led1, unsigned char led2){
 	MOVWF	r0x100C
 	MOVF	STK00,W
 	MOVWF	r0x100D
-;	.line	44; "bingo.c"	for(int k = 0; k<100; k++){
+;	.line	43; "bingo.c"	for(int k = 0; k<100; k++){
 	CLRF	r0x100E
 	CLRF	r0x100F
 ;;signed compare: left < lit(0x64=100), size=2, mask=ffff
@@ -451,12 +451,12 @@ _00119_DS_:
 _00136_DS_:
 	BTFSC	STATUS,0
 	GOTO	_00121_DS_
-;;genSkipc:3307: created from rifx:0x7ffe703d98b0
-;	.line	45; "bingo.c"	if (SELECTOR){ //Display Unidades
+;;genSkipc:3307: created from rifx:0x7ffcd2780390
+;	.line	44; "bingo.c"	if (SELECTOR){ //Display Unidades
 	BANKSEL	_GPIObits
 	BTFSS	_GPIObits,4
 	GOTO	_00115_DS_
-;	.line	46; "bingo.c"	GPIO |= masking(led1);				
+;	.line	45; "bingo.c"	GPIO |= masking(led1);				
 	MOVF	r0x100C,W
 	PAGESEL	_masking
 	CALL	_masking
@@ -464,7 +464,7 @@ _00136_DS_:
 	MOVWF	r0x1010
 	BANKSEL	_GPIO
 	IORWF	_GPIO,F
-;	.line	47; "bingo.c"	delay(10);
+;	.line	46; "bingo.c"	delay(10);
 	MOVLW	0x0a
 	MOVWF	STK00
 	MOVLW	0x00
@@ -473,7 +473,7 @@ _00136_DS_:
 	PAGESEL	$
 	GOTO	_00116_DS_
 _00115_DS_:
-;	.line	50; "bingo.c"	GPIO |= masking(led2);
+;	.line	49; "bingo.c"	GPIO |= masking(led2);
 	MOVF	r0x100D,W
 	PAGESEL	_masking
 	CALL	_masking
@@ -481,7 +481,7 @@ _00115_DS_:
 	MOVWF	r0x1010
 	BANKSEL	_GPIO
 	IORWF	_GPIO,F
-;	.line	51; "bingo.c"	delay(10);
+;	.line	50; "bingo.c"	delay(10);
 	MOVLW	0x0a
 	MOVWF	STK00
 	MOVLW	0x00
@@ -489,7 +489,7 @@ _00115_DS_:
 	CALL	_delay
 	PAGESEL	$
 _00116_DS_:
-;	.line	53; "bingo.c"	GP4 = ~GP4;
+;	.line	52; "bingo.c"	SELECTOR = ~SELECTOR;
 	CLRF	r0x1010
 	BANKSEL	_GPIObits
 	BTFSC	_GPIObits,4
@@ -501,16 +501,16 @@ _00116_DS_:
 	BCF	_GPIObits,4
 	BTFSC	STATUS,0
 	BSF	_GPIObits,4
-;	.line	54; "bingo.c"	GPIO &= 0x18; // limpia los bits menos GP3 y GP4
+;	.line	53; "bingo.c"	GPIO &= 0x18; // limpia los bits menos GP3 y GP4
 	MOVLW	0x18
 	ANDWF	_GPIO,F
-;	.line	44; "bingo.c"	for(int k = 0; k<100; k++){
+;	.line	43; "bingo.c"	for(int k = 0; k<100; k++){
 	INCF	r0x100E,F
 	BTFSC	STATUS,2
 	INCF	r0x100F,F
 	GOTO	_00119_DS_
 _00121_DS_:
-;	.line	56; "bingo.c"	}
+;	.line	55; "bingo.c"	}
 	RETURN	
 ; exit point of _LED_display_switching
 

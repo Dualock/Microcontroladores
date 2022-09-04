@@ -11,7 +11,6 @@ void setup();
 unsigned char masking(unsigned char number);
 unsigned char lfsr(unsigned char seed);
 void LED_display_switching(unsigned char led1, unsigned char led2);
-
 void main(void)
 {
 	setup();
@@ -50,7 +49,7 @@ void LED_display_switching(unsigned char led1, unsigned char led2){
 			GPIO |= masking(led2);
 			delay(10);
 		}
-		GP4 = ~GP4;
+		SELECTOR = ~SELECTOR;
 		GPIO &= 0x18; // limpia los bits menos GP3 y GP4
 	}
 }
@@ -58,12 +57,13 @@ void LED_display_switching(unsigned char led1, unsigned char led2){
 
 void setup(){
 	typedef unsigned int word;
+	word __at 0x207 __CONFIG = (_WDTE_OFF & _WDT_OFF & _MCLRE_OFF);
     	TRISIO = 0b00000000; //Poner todos los pines como salidas, bit[3] siempre lee 1
 	GPIO = 0x00; //Poner pines en bajo
-	word __at 0x207 __CONFIG = (_WDTE_OFF & _WDT_OFF & _MCLRE_OFF);
 	ANSEL = 0x00;
 	//CMCON = 0x07;
 }
+
 // Esta funcion retorna una mascara para activar los bits del GPIO, del 0 al 7 la mascara es el mismo numero
 //unicamente cambia en los numeros 8 y 9 ya que el 4 bit es la entrada
 unsigned char masking(unsigned char number){
@@ -72,7 +72,6 @@ unsigned char masking(unsigned char number){
 		case 9: return 0x21;
 		default: return number;
 	}
-	//return mask;
 }
 
 
@@ -99,7 +98,6 @@ void delay(unsigned int tiempo)
 {
 	unsigned int i;
 	unsigned int j;
-	//*i = 0;
 	for(i=0;i<tiempo;(i)++)
 	for(j = 0; j<1275; (j)++);
 }
