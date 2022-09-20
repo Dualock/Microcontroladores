@@ -4,21 +4,12 @@
 #include "functions.h"
 
 /*C stands for car and P stands for pedestrean*/
-// Remember to use 2 peatonal leds on the circuit design
 #define C_RED_LED PB0
 #define INTERRUPT_INPUT PB1
 #define C_GREEN_LED PB2
 #define P_RED_LED PB3
 #define P_GREEN_LED PB4
 
-/* **************** STATES *****************
-LDPV: Turns green led for vehicles
-LDVD: Turns red light for vehicles
-LDPP: Turns green light for pedestreans
-LDPD: Turns red light for pedestreans
-
-*/
-enum{LDPV, LDVD, LDPP, LDPD};
 
 /*ISR(PCINT1_vect){
   PORTB |= (1<<P_GREEN_LED);
