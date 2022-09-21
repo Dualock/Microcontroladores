@@ -10,19 +10,18 @@ typedef struct {
     void (*func)(void);
 } stateFunctionRow_t;
 
-/// \brief  Maps a state to it's state transition function, which should be called
-///         when the state transitions into this state.
+/// \brief Maps a state and its transition function
 /// \warning    This has to stay in sync with the state_t enum!
 static stateFunctionRow_t stateFunctionA[] = {
       // NAME         // FUNC
-    { "ST_IDLE",      		&idle 			},
-    { "ST_CAR_PASS",    	&car_pass 		}, 
-    { "ST_WALK_REQUEST",   	&walk_request 		}, 
-    { "ST_STOP_WARNING_CAR",   	&stop_warning_car 	}, 
-    { "ST_CAR_STOP",   		&car_stop 		}, 
-    { "ST_PEOPLE_PASS",   	&people_pass 		}, 
+    { "ST_IDLE",      		    &idle 			        },
+    { "ST_CAR_PASS",    	    &car_pass 		        }, 
+    { "ST_WALK_REQUEST",   	    &walk_request 		    }, 
+    { "ST_STOP_WARNING_CAR",   	&stop_warning_car 	    }, 
+    { "ST_CAR_STOP",   		    &car_stop 		        }, 
+    { "ST_PEOPLE_PASS",   	    &people_pass 		    }, 
     { "ST_STOP_WARNING_PEOPLE", &stop_warning_people 	}, 
-    { "ST_PEOPLE_STOP", 	&people_stop 		}, 
+    { "ST_PEOPLE_STOP", 	    &people_stop 		    }, 
 };
 
 typedef struct {
@@ -33,22 +32,23 @@ typedef struct {
 
 static stateTransMatrixRow_t stateTransMatrix[] = {
     // CURRENT STATE    	// EVENT              // NEXT STATE
-    { ST_IDLE, 			EV_NONE,     	 	ST_CAR_PASS  		},
-    { ST_CAR_PASS, 		EV_NONE,     	 	ST_CAR_PASS 		},
-    { ST_CAR_PASS, 		EV_BUTTON_PUSHED,     	ST_WALK_REQUEST    	},
+    { ST_IDLE, 			EV_NONE,     	 	ST_CAR_PASS  		            },
+    { ST_CAR_PASS, 		EV_NONE,     	 	ST_CAR_PASS 		            },
+    { ST_CAR_PASS, 		EV_BUTTON_PUSHED,     	ST_WALK_REQUEST    	        },
     { ST_WALK_REQUEST,  	EV_TIME_OUT_10,         ST_STOP_WARNING_CAR  	},
-    { ST_STOP_WARNING_CAR,  	EV_TIME_OUT_3,     	ST_CAR_STOP    		},
-    { ST_CAR_STOP,  		EV_TIME_OUT_1,     	ST_PEOPLE_PASS        	},
+    { ST_STOP_WARNING_CAR,  	EV_TIME_OUT_3,     	ST_CAR_STOP    		    },
+    { ST_CAR_STOP,  		EV_TIME_OUT_1,     	ST_PEOPLE_PASS        	    },
     { ST_PEOPLE_PASS,  		EV_TIME_OUT_10,     	ST_STOP_WARNING_PEOPLE	},
-    { ST_STOP_WARNING_PEOPLE,  	EV_TIME_OUT_3,     	ST_PEOPLE_STOP		},
-    { ST_PEOPLE_STOP,  		EV_TIME_OUT_1,     	ST_CAR_PASS		},
+    { ST_STOP_WARNING_PEOPLE,  	EV_TIME_OUT_3,     	ST_PEOPLE_STOP		    },
+    { ST_PEOPLE_STOP,  		EV_TIME_OUT_1,     	ST_CAR_PASS		            },
 };
 
 void state_machine_Init(state_machine_t * state_machine) {
-    printf("Initialising state machine.\r\n");
+	// Initialising machine
     state_machine->current_state = ST_IDLE;
 }
 
+// Run the FSM
 void state_machine_Run(state_machine_t *state_machine, event_t event) {
 
     // Iterate through the state transition matrix, checking if there is both a match with the current state

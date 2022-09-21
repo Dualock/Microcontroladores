@@ -2,18 +2,28 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#define C_RED_LED PB4
+#define INTERRUPT_INPUT PB1
+#define C_GREEN_LED PB5
+#define P_RED_LED PB6
+#define P_GREEN_LED PB7
+#define TICKETS_PER_SECOND 157
 
-void led_blink();
+// Function prototypes for every state
+
+void idle();
+
+void stop_warning_car();
 
 void walk_request();
 
-void people_walk();
-
-void people_stop();
-
 void car_pass();
 
-void people_led_blink();
+void car_stop();
 
-void car_led_blink();
+void people_pass();
+
+void stop_warning_people();
+
+void people_stop();
 #endif // #ifndef FUNCTIONS_H
