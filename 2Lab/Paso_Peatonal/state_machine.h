@@ -23,9 +23,6 @@ typedef struct {
 typedef enum {
     EV_NONE,
     EV_BUTTON_PUSHED,
-    EV_TIME_OUT_10,
-    EV_TIME_OUT_3,
-    EV_TIME_OUT_1,
 } event_t;
 
 // Function prototypes

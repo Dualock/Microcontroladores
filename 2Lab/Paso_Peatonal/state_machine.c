@@ -1,3 +1,4 @@
+// Code structure taken from Geoffrey Hunter (www.mbedded.ninja)
 #include <stdio.h>
 
 // Local includes
@@ -32,15 +33,15 @@ typedef struct {
 
 static stateTransMatrixRow_t stateTransMatrix[] = {
     // CURRENT STATE    	// EVENT              // NEXT STATE
-    { ST_IDLE, 			EV_NONE,     	 	ST_CAR_PASS  		            },
-    { ST_CAR_PASS, 		EV_NONE,     	 	ST_CAR_PASS 		            },
-    { ST_CAR_PASS, 		EV_BUTTON_PUSHED,     	ST_WALK_REQUEST    	        },
-    { ST_WALK_REQUEST,  	EV_TIME_OUT_10,         ST_STOP_WARNING_CAR  	},
-    { ST_STOP_WARNING_CAR,  	EV_TIME_OUT_3,     	ST_CAR_STOP    		    },
-    { ST_CAR_STOP,  		EV_TIME_OUT_1,     	ST_PEOPLE_PASS        	    },
-    { ST_PEOPLE_PASS,  		EV_TIME_OUT_10,     	ST_STOP_WARNING_PEOPLE	},
-    { ST_STOP_WARNING_PEOPLE,  	EV_TIME_OUT_3,     	ST_PEOPLE_STOP		    },
-    { ST_PEOPLE_STOP,  		EV_TIME_OUT_1,     	ST_CAR_PASS		            },
+    { ST_IDLE, 			        EV_NONE,     	 	ST_CAR_PASS  		            },
+    { ST_CAR_PASS, 		        EV_NONE,     	 	ST_CAR_PASS 		            },
+    { ST_CAR_PASS, 		        EV_BUTTON_PUSHED,   ST_WALK_REQUEST    	            },
+    { ST_WALK_REQUEST,  	    EV_NONE,            ST_STOP_WARNING_CAR  	        },
+    { ST_STOP_WARNING_CAR,      EV_NONE,     	    ST_CAR_STOP    		            },
+    { ST_CAR_STOP,  		    EV_NONE,     	    ST_PEOPLE_PASS        	        },
+    { ST_PEOPLE_PASS,  		    EV_NONE,     	    ST_STOP_WARNING_PEOPLE	        },
+    { ST_STOP_WARNING_PEOPLE,  	EV_NONE,     	    ST_PEOPLE_STOP		            },
+    { ST_PEOPLE_STOP,  		    EV_NONE,     	    ST_CAR_PASS		                },
 };
 
 void state_machine_Init(state_machine_t * state_machine) {

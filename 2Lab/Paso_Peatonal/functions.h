@@ -7,7 +7,7 @@
 #define C_GREEN_LED PB5
 #define P_RED_LED PB6
 #define P_GREEN_LED PB7
-#define TICKETS_PER_SECOND 157
+#define TICKS_PER_SECOND 157 // 157 cicles for 1 ms using prescaler
 
 // Function prototypes for every state
 
